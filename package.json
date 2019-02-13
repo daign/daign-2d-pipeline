@@ -42,7 +42,7 @@
     "typescript": "^3.2.4"
   },
   "dependencies": {
-    "@daign/math": "^1.0.1",
+    "@daign/math": "^1.0.2",
     "@daign/observable": "^1.0.1"
   },
   "nyc": {
