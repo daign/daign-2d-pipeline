@@ -22,7 +22,7 @@ export abstract class GenericNode extends Observable {
   /**
    * The child nodes referenced by their mapping name.
    */
-  public namedMapping: { [ name: string ]: GenericNode; } = {};
+  private namedMapping: { [ name: string ]: GenericNode; } = {};
 
   /**
    * Constructor.
