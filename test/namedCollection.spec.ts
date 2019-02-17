@@ -48,6 +48,19 @@ describe( 'NamedCollection', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
+    it( 'should call onItemUpdate', () => {
+      // arrange
+      const collection = new TestCollection();
+      const item = new TestItem();
+      const spy = sinon.spy( collection as any, 'onItemUpdate' );
+
+      // act
+      collection.append( item );
+
+      // assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
     it( 'should add to namedMapping when name is passed', () => {
       // arrange
       const name = 'SomeName';
@@ -97,6 +110,20 @@ describe( 'NamedCollection', () => {
       const item = new TestItem();
       collection.append( item );
       const spy = sinon.spy( collection as any, 'notifyObservers' );
+
+      // act
+      item.change();
+
+      // assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should call onItemUpdate if item changes', () => {
+      // arrange
+      const collection = new TestCollection();
+      const item = new TestItem();
+      collection.append( item );
+      const spy = sinon.spy( collection as any, 'onItemUpdate' );
 
       // act
       item.change();

@@ -38,10 +38,13 @@ export abstract class NamedCollection<T extends Observable> extends Observable {
     if ( name ) {
       this.namedMapping[ name ] = item;
     }
+
+    this.onItemUpdate();
     this.notifyObservers();
 
     // notify observers when the item has changes
     const callback = (): void => {
+      this.onItemUpdate();
       this.notifyObservers();
     };
     item.subscribeToChanges( callback );
@@ -60,4 +63,9 @@ export abstract class NamedCollection<T extends Observable> extends Observable {
 
     return this.namedMapping[ name ];
   }
+
+  /**
+   * Method called when an item changes. Can be overwritten in subclasses.
+   */
+  protected onItemUpdate(): void {}
 }
