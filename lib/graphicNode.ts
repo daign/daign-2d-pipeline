@@ -1,5 +1,5 @@
 import {GenericNode} from './genericNode';
-import {TransformCollection} from './transformations/transformCollection';
+import {TransformCollection} from './transformations';
 
 /**
  * Class for nodes in a graphic document.

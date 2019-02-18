@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 
 import {Matrix3, Vector2} from '@daign/math';
 
-import {MatrixTransform} from '../../lib/transformations/matrixTransform';
+import {MatrixTransform} from '../../lib/transformations';
 
 describe( 'MatrixTransform', () => {
   describe( 'constructor', () => {
