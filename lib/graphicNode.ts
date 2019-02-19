@@ -4,7 +4,7 @@ import {TransformCollection} from './transformations';
 /**
  * Class for nodes in a graphic document.
  */
-export class GraphicNode extends GenericNode {
+export class GraphicNode extends GenericNode<GraphicNode> {
   /**
    * The transformation applied to the node.
    */

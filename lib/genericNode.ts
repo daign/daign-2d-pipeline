@@ -3,16 +3,16 @@ import {Observable} from '@daign/observable';
 /**
  * Class that describes a node in a tree data structure.
  */
-export abstract class GenericNode extends Observable {
+export abstract class GenericNode<T extends GenericNode<any>> extends Observable {
   /**
    * Reference to the parent node.
    */
-  public parent: GenericNode | null = null;
+  public parent: T | null = null;
 
   /**
    * References to the child nodes.
    */
-  public children: GenericNode[] = [];
+  public children: T[] = [];
 
   /**
    * Name that is used by the parent as a unique identifier for the child.
@@ -22,7 +22,7 @@ export abstract class GenericNode extends Observable {
   /**
    * The child nodes referenced by their mapping name.
    */
-  private namedMapping: { [ name: string ]: GenericNode; } = {};
+  private namedMapping: { [ name: string ]: T; } = {};
 
   /**
    * Constructor.
@@ -37,7 +37,7 @@ export abstract class GenericNode extends Observable {
    * @param childNode The child node.
    * @param name The name of the child for the mapping. Optional.
    */
-  public appendChild( childNode: GenericNode, name?: string ): void {
+  public appendChild( childNode: T, name?: string ): void {
     if ( name && this.namedMapping[ name ] ) {
       throw new Error( 'Name is not unique.' );
     }
@@ -63,7 +63,7 @@ export abstract class GenericNode extends Observable {
    * Will do nothing if the given node is not one of the child nodes.
    * @param childNode The child node.
    */
-  public removeChild( childNode: GenericNode ): void {
+  public removeChild( childNode: T ): void {
     const index = this.children.indexOf( childNode );
 
     if ( index === -1 ) {
@@ -86,7 +86,7 @@ export abstract class GenericNode extends Observable {
    * Remove all child nodes from this node.
    */
   public clearChildren(): void {
-    this.children.forEach( ( child: GenericNode ): void => {
+    this.children.forEach( ( child: T ): void => {
       child.parent = null;
       child.mappingName = null;
       child.notifyObservers();
@@ -122,7 +122,7 @@ export abstract class GenericNode extends Observable {
    * @param name The name of the child.
    * @returns The child node.
    */
-  public getChildByName( name: string ): GenericNode {
+  public getChildByName( name: string ): T {
     if ( !this.namedMapping[ name ] ) {
       throw new Error( 'No child exists for the given name.' );
     }

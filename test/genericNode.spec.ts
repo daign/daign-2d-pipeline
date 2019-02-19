@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 
 import {GenericNode} from '../lib/genericNode';
 
-class TestClass extends GenericNode {
+class TestClass extends GenericNode<TestClass> {
   constructor() {
     super();
   }
