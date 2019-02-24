@@ -96,7 +96,7 @@ describe( 'NamedCollection', () => {
       collection.append( item1, name );
 
       // Act
-      const badFn = () => {
+      const badFn = (): void => {
         collection.append( item2, name );
       };
 
@@ -156,7 +156,7 @@ describe( 'NamedCollection', () => {
       collection.append( item );
 
       // Act
-      const badFn = () => {
+      const badFn = (): void => {
         collection.byName( name );
       };
 

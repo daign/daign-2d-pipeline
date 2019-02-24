@@ -37,7 +37,7 @@ describe( 'GenericNode', () => {
       parent2.appendChild( child );
 
       // Assert
-      const badFn = () => {
+      const badFn = (): void => {
         parent1.getChildByName( name );
       };
       expect( badFn ).to.throw( 'No child exists for the given name.' );
@@ -130,7 +130,7 @@ describe( 'GenericNode', () => {
       parent.appendChild( child );
 
       // Assert
-      const badFn = () => {
+      const badFn = (): void => {
         parent.getChildByName( name );
       };
       expect( badFn ).to.throw( 'No child exists for the given name.' );
@@ -145,7 +145,7 @@ describe( 'GenericNode', () => {
       parent.appendChild( child1, name );
 
       // Act
-      const badFn = () => {
+      const badFn = (): void => {
         parent.appendChild( child2, name );
       };
 
@@ -218,7 +218,7 @@ describe( 'GenericNode', () => {
       parent.removeChild( child );
 
       // Assert
-      const badFn = () => {
+      const badFn = (): void => {
         parent.getChildByName( name );
       };
       expect( badFn ).to.throw( 'No child exists for the given name.' );
@@ -401,12 +401,12 @@ describe( 'GenericNode', () => {
       parent.clearChildren();
 
       // Assert
-      const badFn1 = () => {
+      const badFn1 = (): void => {
         parent.getChildByName( name1 );
       };
       expect( badFn1 ).to.throw( 'No child exists for the given name.' );
 
-      const badFn2 = () => {
+      const badFn2 = (): void => {
         parent.getChildByName( name2 );
       };
       expect( badFn2 ).to.throw( 'No child exists for the given name.' );
@@ -471,7 +471,7 @@ describe( 'GenericNode', () => {
       const node = new TestClass();
 
       // Act
-      const goodFn = () => {
+      const goodFn = (): void => {
         node.removeFromParent();
       };
 
@@ -562,7 +562,7 @@ describe( 'GenericNode', () => {
       parent.appendChild( child2, name2 );
 
       // Act
-      const badFn = () => {
+      const badFn = (): void => {
         parent.getChildByName( 'SomeOtherName' );
       };
 
