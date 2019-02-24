@@ -6,14 +6,26 @@
   "jsRules": {},
   "rules": {
     "arrow-parens": [true, "ban-single-arg-parens"],
+    "comment-format": {
+      "options": ["check-space", "check-uppercase"]
+    },
+    "file-name-casing": [true, "camel-case"],
     "indent": [true, "spaces", 2],
     "max-classes-per-file": false,
     "max-line-length": [true, 100],
+    "member-access": {
+      "options": ["check-accessor", "check-constructor", "check-parameter-property"]
+    },
+    "no-duplicate-imports": true,
     "no-empty": false,
+    "no-irregular-whitespace": true,
     "no-unused-expression": false,
     "no-unused-expression-chai": true,
     "quotemark": {
       "options": ["single", "avoid-escape"]
+    },
+    "space-within-parens": {
+      "options": 1
     },
     "trailing-comma": {
       "options": {
@@ -22,8 +34,24 @@
         "singleline": "never"
       }
     },
+    "typedef": [true, "call-signature", "parameter", "member-variable-declaration"],
+    "type-literal-delimiter": true,
     "variable-name": {
       "options": ["ban-keywords", "check-format", "allow-leading-underscore"]
+    },
+    "whitespace": {
+      "options": [
+        "check-branch",
+        "check-decl",
+        "check-operator",
+        "check-module",
+        "check-separator",
+        "check-type",
+        "check-typecast",
+        "check-preblock",
+        "check-type-operator",
+        "check-rest-spread"
+      ]
     }
   },
   "rulesDirectory": [

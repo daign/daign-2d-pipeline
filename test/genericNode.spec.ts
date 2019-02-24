@@ -1,10 +1,10 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import {GenericNode} from '../lib/genericNode';
+import { GenericNode } from '../lib/genericNode';
 
 class TestClass extends GenericNode<TestClass> {
-  constructor() {
+  public constructor() {
     super();
   }
 }
@@ -12,31 +12,31 @@ class TestClass extends GenericNode<TestClass> {
 describe( 'GenericNode', () => {
   describe( 'appendChild', () => {
     it( 'should remove child from former parent', () => {
-      // arrange
+      // Arrange
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child );
 
-      // act
+      // Act
       parent2.appendChild( child );
 
-      // assert
+      // Assert
       expect( parent1.children.length ).to.equal( 0 );
     } );
 
     it( 'should remove child from namedMapping of former parent', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child, name );
 
-      // act
+      // Act
       parent2.appendChild( child );
 
-      // assert
+      // Assert
       const badFn = () => {
         parent1.getChildByName( name );
       };
@@ -44,92 +44,92 @@ describe( 'GenericNode', () => {
     } );
 
     it( 'should remove mappingName from child if append to new parent is without name', () => {
-      // arrange
+      // Arrange
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child, 'SomeName' );
 
-      // act
+      // Act
       parent2.appendChild( child );
 
-      // assert
+      // Assert
       expect( child.mappingName ).to.be.null;
     } );
 
     it( 'should add to children property of child', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
 
-      // act
+      // Act
       parent.appendChild( child );
 
-      // assert
+      // Assert
       expect( parent.children[ 0 ] ).to.equal( child );
     } );
 
     it( 'should set parent property of child', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
 
-      // act
+      // Act
       parent.appendChild( child );
 
-      // assert
+      // Assert
       expect( child.parent ).to.equal( parent );
     } );
 
     it( 'should set mappingName property of child when name is passed', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const parent = new TestClass();
       const child = new TestClass();
 
-      // act
+      // Act
       parent.appendChild( child, name );
 
-      // assert
+      // Assert
       expect( child.mappingName ).to.equal( name );
     } );
 
     it( 'should not set mappingName property of child when no name is passed', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
 
-      // act
+      // Act
       parent.appendChild( child );
 
-      // assert
+      // Assert
       expect( child.mappingName ).to.be.null;
     } );
 
     it( 'should add to namedMapping when name is passed', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const parent = new TestClass();
       const child = new TestClass();
 
-      // act
+      // Act
       parent.appendChild( child, name );
       const result = parent.getChildByName( name );
 
-      // assert
+      // Assert
       expect( result ).to.equal( child );
     } );
 
     it( 'should not add to namedMapping when no name is passed', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const parent = new TestClass();
       const child = new TestClass();
 
-      // act
+      // Act
       parent.appendChild( child );
 
-      // assert
+      // Assert
       const badFn = () => {
         parent.getChildByName( name );
       };
@@ -137,87 +137,87 @@ describe( 'GenericNode', () => {
     } );
 
     it( 'should throw error if name already exists in mapping', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child1 = new TestClass();
       const child2 = new TestClass();
       const name = 'SomeName';
       parent.appendChild( child1, name );
 
-      // act
+      // Act
       const badFn = () => {
         parent.appendChild( child2, name );
       };
 
-      // assert
+      // Assert
       expect( badFn ).to.throw( 'Name is not unique.' );
     } );
 
     it( 'should call notifyObservers of parent', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
       const spy = sinon.spy( parent as any, 'notifyObservers' );
 
-      // act
+      // Act
       parent.appendChild( child );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should call notifyObservers of child', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
       const spy = sinon.spy( child as any, 'notifyObservers' );
 
-      // act
+      // Act
       parent.appendChild( child );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'removeChild', () => {
     it( 'should remove child from parent', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
       parent.appendChild( child );
 
-      // act
+      // Act
       parent.removeChild( child );
 
-      // assert
+      // Assert
       expect( parent.children.length ).to.equal( 0 );
     } );
 
     it( 'should remove parent property from child', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
       parent.appendChild( child );
 
-      // act
+      // Act
       parent.removeChild( child );
 
-      // assert
+      // Assert
       expect( child.parent ).to.be.null;
     } );
 
     it( 'should remove child from namedMapping of parent', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const parent = new TestClass();
       const child = new TestClass();
       parent.appendChild( child, name );
 
-      // act
+      // Act
       parent.removeChild( child );
 
-      // assert
+      // Assert
       const badFn = () => {
         parent.getChildByName( name );
       };
@@ -225,170 +225,170 @@ describe( 'GenericNode', () => {
     } );
 
     it( 'should remove mappingName property from child', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
       parent.appendChild( child, 'SomeName' );
 
-      // act
+      // Act
       parent.removeChild( child );
 
-      // assert
+      // Assert
       expect( child.mappingName ).to.be.null;
     } );
 
     it( 'should call notifyObservers of parent', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
       parent.appendChild( child );
       const spy = sinon.spy( parent as any, 'notifyObservers' );
 
-      // act
+      // Act
       parent.removeChild( child );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should call notifyObservers of child', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child = new TestClass();
       parent.appendChild( child );
       const spy = sinon.spy( child as any, 'notifyObservers' );
 
-      // act
+      // Act
       parent.removeChild( child );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not remove child from parent when remove is called on a different parent', () => {
-      // arrange
+      // Arrange
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child );
 
-      // act
+      // Act
       parent2.removeChild( child );
 
-      // assert
+      // Assert
       expect( parent1.children[ 0 ] ).to.equal( child );
     } );
 
     it( 'should not remove parent property when it is not a child of the parent', () => {
-      // arrange
+      // Arrange
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child );
 
-      // act
+      // Act
       parent2.removeChild( child );
 
-      // assert
+      // Assert
       expect( child.parent ).to.equal( parent1 );
     } );
 
     it( 'should not remove child from namedMapping of different parent', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child, name );
 
-      // act
+      // Act
       parent2.removeChild( child );
 
-      // assert
+      // Assert
       const result = parent1.getChildByName( name );
       expect( result ).to.equal( child );
     } );
 
     it( 'should not remove mappingName property from child of different parent', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child, name );
 
-      // act
+      // Act
       parent2.removeChild( child );
 
-      // assert
+      // Assert
       expect( child.mappingName ).to.equal( name );
     } );
 
     it( 'should not call notifyObservers of parent if its not a child of this node', () => {
-      // arrange
+      // Arrange
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child );
       const spy = sinon.spy( parent2 as any, 'notifyObservers' );
 
-      // act
+      // Act
       parent2.removeChild( child );
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
 
     it( 'should not call notifyObservers of child if its not a child of this node', () => {
-      // arrange
+      // Arrange
       const parent1 = new TestClass();
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child );
       const spy = sinon.spy( child as any, 'notifyObservers' );
 
-      // act
+      // Act
       parent2.removeChild( child );
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'clearChildren', () => {
     it( 'should remove children from parent', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child1 = new TestClass();
       const child2 = new TestClass();
       parent.appendChild( child1 );
       parent.appendChild( child2 );
 
-      // act
+      // Act
       parent.clearChildren();
 
-      // assert
+      // Assert
       expect( parent.children.length ).to.equal( 0 );
     } );
 
     it( 'should remove parent property from children', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child1 = new TestClass();
       const child2 = new TestClass();
       parent.appendChild( child1 );
       parent.appendChild( child2 );
 
-      // act
+      // Act
       parent.clearChildren();
 
-      // assert
+      // Assert
       expect( child1.parent ).to.be.null;
       expect( child2.parent ).to.be.null;
     } );
 
     it( 'should remove children from namedMapping of parent', () => {
-      // arrange
+      // Arrange
       const name1 = 'SomeName1';
       const name2 = 'SomeName2';
       const parent = new TestClass();
@@ -397,10 +397,10 @@ describe( 'GenericNode', () => {
       parent.appendChild( child1, name1 );
       parent.appendChild( child2, name2 );
 
-      // act
+      // Act
       parent.clearChildren();
 
-      // assert
+      // Assert
       const badFn1 = () => {
         parent.getChildByName( name1 );
       };
@@ -413,7 +413,7 @@ describe( 'GenericNode', () => {
     } );
 
     it( 'should remove mappingName property from children', () => {
-      // arrange
+      // Arrange
       const name1 = 'SomeName1';
       const name2 = 'SomeName2';
       const parent = new TestClass();
@@ -422,16 +422,16 @@ describe( 'GenericNode', () => {
       parent.appendChild( child1, name1 );
       parent.appendChild( child2, name2 );
 
-      // act
+      // Act
       parent.clearChildren();
 
-      // assert
+      // Assert
       expect( child1.mappingName ).to.be.null;
       expect( child2.mappingName ).to.be.null;
     } );
 
     it( 'should call notifyObservers of parent', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child1 = new TestClass();
       const child2 = new TestClass();
@@ -439,15 +439,15 @@ describe( 'GenericNode', () => {
       parent.appendChild( child2 );
       const spy = sinon.spy( parent as any, 'notifyObservers' );
 
-      // act
+      // Act
       parent.clearChildren();
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should call notifyObservers of children', () => {
-      // arrange
+      // Arrange
       const parent = new TestClass();
       const child1 = new TestClass();
       const child2 = new TestClass();
@@ -456,10 +456,10 @@ describe( 'GenericNode', () => {
       const spy1 = sinon.spy( child1 as any, 'notifyObservers' );
       const spy2 = sinon.spy( child2 as any, 'notifyObservers' );
 
-      // act
+      // Act
       parent.clearChildren();
 
-      // assert
+      // Assert
       expect( spy1.calledOnce ).to.be.true;
       expect( spy2.calledOnce ).to.be.true;
     } );
@@ -467,29 +467,29 @@ describe( 'GenericNode', () => {
 
   describe( 'removeFromParent', () => {
     it( 'should not throw error when node has no parent', () => {
-      // arrange
+      // Arrange
       const node = new TestClass();
 
-      // act
+      // Act
       const goodFn = () => {
         node.removeFromParent();
       };
 
-      // assert
+      // Assert
       expect( goodFn ).to.not.throw();
     } );
 
     it( 'should call removeChild on parent if node has a parent', () => {
-      // arrange
+      // Arrange
       const node = new TestClass();
       const parent = new TestClass();
       parent.appendChild( node );
       const spy = sinon.spy( parent, 'removeChild' );
 
-      // act
+      // Act
       node.removeFromParent();
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
       expect( spy.calledWith( node ) ).to.be.true;
     } );
@@ -497,45 +497,45 @@ describe( 'GenericNode', () => {
 
   describe( 'destroyNode', () => {
     it( 'should call clearChildren', () => {
-      // arrange
+      // Arrange
       const node = new TestClass();
       const spy = sinon.spy( node, 'clearChildren' );
 
-      // act
+      // Act
       node.destroyNode();
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should call removeFromParent', () => {
-      // arrange
+      // Arrange
       const node = new TestClass();
       const spy = sinon.spy( node, 'removeFromParent' );
 
-      // act
+      // Act
       node.destroyNode();
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should call clearObservers', () => {
-      // arrange
+      // Arrange
       const node = new TestClass();
       const spy = sinon.spy( ( node as any ), 'clearObservers' );
 
-      // act
+      // Act
       node.destroyNode();
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'getChildByName', () => {
     it( 'should return the right child', () => {
-      // arrange
+      // Arrange
       const name1 = 'SomeName1';
       const name2 = 'SomeName2';
       const parent = new TestClass();
@@ -544,15 +544,15 @@ describe( 'GenericNode', () => {
       parent.appendChild( child1, name1 );
       parent.appendChild( child2, name2 );
 
-      // act
+      // Act
       const result = parent.getChildByName( name1 );
 
-      // assert
+      // Assert
       expect( result ).to.equal( child1 );
     } );
 
     it( 'should throw error when there is no child with the given name', () => {
-      // arrange
+      // Arrange
       const name1 = 'SomeName1';
       const name2 = 'SomeName2';
       const parent = new TestClass();
@@ -561,12 +561,12 @@ describe( 'GenericNode', () => {
       parent.appendChild( child1, name1 );
       parent.appendChild( child2, name2 );
 
-      // act
+      // Act
       const badFn = () => {
         parent.getChildByName( 'SomeOtherName' );
       };
 
-      // assert
+      // Assert
       expect( badFn ).to.throw( 'No child exists for the given name.' );
     } );
   } );

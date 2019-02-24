@@ -1,4 +1,4 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
 /**
  * Class that describes a node in a tree data structure.
@@ -22,12 +22,12 @@ export abstract class GenericNode<T extends GenericNode<any>> extends Observable
   /**
    * The child nodes referenced by their mapping name.
    */
-  private namedMapping: { [ name: string ]: T; } = {};
+  private namedMapping: { [ name: string ]: T } = {};
 
   /**
    * Constructor.
    */
-  constructor() {
+  public constructor() {
     super();
   }
 

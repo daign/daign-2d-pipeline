@@ -1,7 +1,7 @@
-import {Matrix3} from '@daign/math';
+import { Matrix3 } from '@daign/math';
 
-import {NamedCollection} from '../namedCollection';
-import {MatrixTransform} from './matrixTransform';
+import { NamedCollection } from '../namedCollection';
+import { MatrixTransform } from './matrixTransform';
 
 /**
  * Collection of transformations combined into a single transformation.
@@ -21,7 +21,7 @@ export class TransformCollection extends NamedCollection<MatrixTransform> {
   /**
    * Constructor.
    */
-  constructor() {
+  public constructor() {
     super();
   }
 

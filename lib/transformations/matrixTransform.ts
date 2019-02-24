@@ -1,5 +1,5 @@
-import {Matrix3} from '@daign/math';
-import {Observable} from '@daign/observable';
+import { Matrix3 } from '@daign/math';
+import { Observable } from '@daign/observable';
 
 /**
  * A transformation defined by a matrix.
@@ -20,10 +20,10 @@ export class MatrixTransform extends Observable {
   /**
    * Constructor.
    */
-  constructor() {
+  public constructor() {
     super();
 
-    // notify observers when matrix has changes
+    // Notify observers when matrix has changes
     const callback = (): void => {
       this.notifyObservers();
     };

@@ -1,4 +1,4 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
 /**
  * Abstract class for collections that can be accessed by index and optionally by name.
@@ -13,12 +13,12 @@ export abstract class NamedCollection<T extends Observable> extends Observable {
   /**
    * The collection items optionally referenced by name.
    */
-  private namedMapping: { [ name: string ]: T; } = {};
+  private namedMapping: { [ name: string ]: T } = {};
 
   /**
    * Constructor
    */
-  constructor() {
+  public constructor() {
     super();
   }
 
@@ -42,7 +42,7 @@ export abstract class NamedCollection<T extends Observable> extends Observable {
     this.onItemUpdate();
     this.notifyObservers();
 
-    // notify observers when the item has changes
+    // Notify observers when the item has changes
     const callback = (): void => {
       this.onItemUpdate();
       this.notifyObservers();

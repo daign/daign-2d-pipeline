@@ -1,12 +1,12 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
-import {NamedCollection} from '../lib/namedCollection';
+import { NamedCollection } from '../lib/namedCollection';
 
 class TestItem extends Observable {
-  constructor() {
+  public constructor() {
     super();
   }
 
@@ -16,7 +16,7 @@ class TestItem extends Observable {
 }
 
 class TestCollection extends NamedCollection<TestItem> {
-  constructor() {
+  public constructor() {
     super();
   }
 }
@@ -24,143 +24,143 @@ class TestCollection extends NamedCollection<TestItem> {
 describe( 'NamedCollection', () => {
   describe( 'append', () => {
     it( 'should append item to array', () => {
-      // arrange
+      // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
 
-      // act
+      // Act
       collection.append( item );
 
-      // assert
+      // Assert
       expect( collection.items[ 0 ] ).to.equal( item );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
       const spy = sinon.spy( collection as any, 'notifyObservers' );
 
-      // act
+      // Act
       collection.append( item );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should call onItemUpdate', () => {
-      // arrange
+      // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
       const spy = sinon.spy( collection as any, 'onItemUpdate' );
 
-      // act
+      // Act
       collection.append( item );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should add to namedMapping when name is passed', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
       const item = new TestItem();
 
-      // act
+      // Act
       collection.append( item, name );
 
-      // assert
+      // Assert
       expect( ( collection as any ).namedMapping[ name ] ).to.equal( item );
     } );
 
     it( 'should not add to namedMapping when no name is passed', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
       const item = new TestItem();
 
-      // act
+      // Act
       collection.append( item );
 
-      // assert
+      // Assert
       expect( ( collection as any ).namedMapping[ name ] ).to.be.undefined;
     } );
 
     it( 'should throw error if name already exists in mapping', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
       const item1 = new TestItem();
       const item2 = new TestItem();
       collection.append( item1, name );
 
-      // act
+      // Act
       const badFn = () => {
         collection.append( item2, name );
       };
 
-      // assert
+      // Assert
       expect( badFn ).to.throw( 'Name is not unique.' );
     } );
 
     it( 'should notify observers if item changes', () => {
-      // arrange
+      // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
       collection.append( item );
       const spy = sinon.spy( collection as any, 'notifyObservers' );
 
-      // act
+      // Act
       item.change();
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should call onItemUpdate if item changes', () => {
-      // arrange
+      // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
       collection.append( item );
       const spy = sinon.spy( collection as any, 'onItemUpdate' );
 
-      // act
+      // Act
       item.change();
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'byName', () => {
     it( 'should return item', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
       const item = new TestItem();
       collection.append( item, name );
 
-      // act
+      // Act
       const result = collection.byName( name );
 
-      // assert
+      // Assert
       expect( result ).to.equal( item );
     } );
 
     it( 'should throw error when item is not in the named mapping', () => {
-      // arrange
+      // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
       const item = new TestItem();
       collection.append( item );
 
-      // act
+      // Act
       const badFn = () => {
         collection.byName( name );
       };
 
-      // assert
+      // Assert
       expect( badFn ).to.throw( 'No item exists for the given name.' );
     } );
   } );

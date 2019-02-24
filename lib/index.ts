@@ -1,3 +1,3 @@
-export {GenericNode} from './genericNode';
-export {GraphicNode} from './graphicNode';
-export {NamedCollection} from './namedCollection';
+export { GenericNode } from './genericNode';
+export { GraphicNode } from './graphicNode';
+export { NamedCollection } from './namedCollection';
