@@ -495,6 +495,44 @@ describe( 'GenericNode', () => {
     } );
   } );
 
+  describe( 'getChildByName', () => {
+    it( 'should return the right child', () => {
+      // Arrange
+      const name1 = 'SomeName1';
+      const name2 = 'SomeName2';
+      const parent = new TestClass();
+      const child1 = new TestClass();
+      const child2 = new TestClass();
+      parent.appendChild( child1, name1 );
+      parent.appendChild( child2, name2 );
+
+      // Act
+      const result = parent.getChildByName( name1 );
+
+      // Assert
+      expect( result ).to.equal( child1 );
+    } );
+
+    it( 'should throw error when there is no child with the given name', () => {
+      // Arrange
+      const name1 = 'SomeName1';
+      const name2 = 'SomeName2';
+      const parent = new TestClass();
+      const child1 = new TestClass();
+      const child2 = new TestClass();
+      parent.appendChild( child1, name1 );
+      parent.appendChild( child2, name2 );
+
+      // Act
+      const badFn = (): void => {
+        parent.getChildByName( 'SomeOtherName' );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'No child exists for the given name.' );
+    } );
+  } );
+
   describe( 'destroyNode', () => {
     it( 'should call clearChildren', () => {
       // Arrange
@@ -533,41 +571,37 @@ describe( 'GenericNode', () => {
     } );
   } );
 
-  describe( 'getChildByName', () => {
-    it( 'should return the right child', () => {
+  describe( 'destroyRecursive', () => {
+    it( 'should call destroyNode on itself', () => {
       // Arrange
-      const name1 = 'SomeName1';
-      const name2 = 'SomeName2';
-      const parent = new TestClass();
-      const child1 = new TestClass();
-      const child2 = new TestClass();
-      parent.appendChild( child1, name1 );
-      parent.appendChild( child2, name2 );
+      const node = new TestClass();
+      const child = new TestClass();
+      node.appendChild( child );
+      const spy = sinon.spy( child, 'destroyNode' );
 
       // Act
-      const result = parent.getChildByName( name1 );
+      node.destroyRecursive();
 
       // Assert
-      expect( result ).to.equal( child1 );
+      expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should throw error when there is no child with the given name', () => {
+    it( 'should call destroyRecursive on all children', () => {
       // Arrange
-      const name1 = 'SomeName1';
-      const name2 = 'SomeName2';
-      const parent = new TestClass();
+      const node = new TestClass();
       const child1 = new TestClass();
       const child2 = new TestClass();
-      parent.appendChild( child1, name1 );
-      parent.appendChild( child2, name2 );
+      node.appendChild( child1 );
+      node.appendChild( child2 );
+      const spy1 = sinon.spy( child1, 'destroyRecursive' );
+      const spy2 = sinon.spy( child2, 'destroyRecursive' );
 
       // Act
-      const badFn = (): void => {
-        parent.getChildByName( 'SomeOtherName' );
-      };
+      node.destroyRecursive();
 
       // Assert
-      expect( badFn ).to.throw( 'No child exists for the given name.' );
+      expect( spy1.calledOnce ).to.be.true;
+      expect( spy2.calledOnce ).to.be.true;
     } );
   } );
 } );

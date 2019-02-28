@@ -108,15 +108,6 @@ export abstract class GenericNode<T extends GenericNode<any>> extends Observable
   }
 
   /**
-   * Destroy this node and all its references.
-   */
-  public destroyNode(): void {
-    this.clearChildren();
-    this.removeFromParent();
-    this.clearObservers();
-  }
-
-  /**
    * Get a child node by its name in the mapping.
    * Will throw an error if a child by this name does not exist.
    * @param name The name of the child.
@@ -128,5 +119,28 @@ export abstract class GenericNode<T extends GenericNode<any>> extends Observable
     }
 
     return this.namedMapping[ name ];
+  }
+
+  /**
+   * Destroy this node and all its references.
+   */
+  public destroyNode(): void {
+    this.clearChildren();
+    this.removeFromParent();
+    this.clearObservers();
+  }
+
+  /**
+   * Destroy this node and all of its children.
+   */
+  public destroyRecursive(): void {
+    // Copy the references first because destroying clears the children.
+    const childReferencesCopy = this.children.slice();
+
+    this.destroyNode();
+
+    childReferencesCopy.forEach( ( child: T ): void => {
+      child.destroyRecursive();
+    } );
   }
 }
