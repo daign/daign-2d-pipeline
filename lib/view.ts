@@ -65,7 +65,7 @@ export class View extends GraphicNode {
   /**
    * Creates a copy of the graphic document starting from the source node.
    */
-  public replicateDocumentTree(): void {
+  private replicateDocumentTree(): void {
     // Remove previously created copy.
     this.destroyDocumentTree();
 
