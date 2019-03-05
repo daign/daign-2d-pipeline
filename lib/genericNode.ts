@@ -54,8 +54,7 @@ export abstract class GenericNode<T extends GenericNode<any>> extends Observable
       childNode.mappingName = name;
       this.namedMapping[ name ] = childNode;
     }
-    this.notifyObservers();
-    childNode.notifyObservers();
+    this.propagateNotifyObservers();
   }
 
   /**
@@ -78,8 +77,7 @@ export abstract class GenericNode<T extends GenericNode<any>> extends Observable
       delete this.namedMapping[ childNode.mappingName ];
       childNode.mappingName = null;
     }
-    this.notifyObservers();
-    childNode.notifyObservers();
+    this.propagateNotifyObservers();
   }
 
   /**
@@ -89,12 +87,11 @@ export abstract class GenericNode<T extends GenericNode<any>> extends Observable
     this.children.forEach( ( child: T ): void => {
       child.parent = null;
       child.mappingName = null;
-      child.notifyObservers();
     } );
     this.children = [];
     this.namedMapping = {};
 
-    this.notifyObservers();
+    this.propagateNotifyObservers();
   }
 
   /**
@@ -142,5 +139,15 @@ export abstract class GenericNode<T extends GenericNode<any>> extends Observable
     childReferencesCopy.forEach( ( child: T ): void => {
       child.destroyRecursive();
     } );
+  }
+
+  /**
+   * Call notifyObservers and propagate up the chain of ancestors.
+   */
+  private propagateNotifyObservers(): void {
+    this.notifyObservers();
+    if ( this.parent !== null ) {
+      this.parent.propagateNotifyObservers();
+    }
   }
 }

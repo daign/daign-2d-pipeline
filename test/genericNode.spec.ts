@@ -157,26 +157,15 @@ describe( 'GenericNode', () => {
       // Arrange
       const parent = new TestClass();
       const child = new TestClass();
-      const spy = sinon.spy( parent as any, 'notifyObservers' );
+      const spy1 = sinon.spy( parent as any, 'propagateNotifyObservers' );
+      const spy2 = sinon.spy( parent as any, 'notifyObservers' );
 
       // Act
       parent.appendChild( child );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
-    } );
-
-    it( 'should call notifyObservers of child', () => {
-      // Arrange
-      const parent = new TestClass();
-      const child = new TestClass();
-      const spy = sinon.spy( child as any, 'notifyObservers' );
-
-      // Act
-      parent.appendChild( child );
-
-      // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( spy1.calledOnce ).to.be.true;
+      expect( spy2.calledOnce ).to.be.true;
     } );
   } );
 
@@ -242,27 +231,15 @@ describe( 'GenericNode', () => {
       const parent = new TestClass();
       const child = new TestClass();
       parent.appendChild( child );
-      const spy = sinon.spy( parent as any, 'notifyObservers' );
+      const spy1 = sinon.spy( parent as any, 'propagateNotifyObservers' );
+      const spy2 = sinon.spy( parent as any, 'notifyObservers' );
 
       // Act
       parent.removeChild( child );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
-    } );
-
-    it( 'should call notifyObservers of child', () => {
-      // Arrange
-      const parent = new TestClass();
-      const child = new TestClass();
-      parent.appendChild( child );
-      const spy = sinon.spy( child as any, 'notifyObservers' );
-
-      // Act
-      parent.removeChild( child );
-
-      // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( spy1.calledOnce ).to.be.true;
+      expect( spy2.calledOnce ).to.be.true;
     } );
 
     it( 'should not remove child from parent when remove is called on a different parent', () => {
@@ -330,28 +307,15 @@ describe( 'GenericNode', () => {
       const parent2 = new TestClass();
       const child = new TestClass();
       parent1.appendChild( child );
-      const spy = sinon.spy( parent2 as any, 'notifyObservers' );
+      const spy1 = sinon.spy( parent2 as any, 'propagateNotifyObservers' );
+      const spy2 = sinon.spy( parent2 as any, 'notifyObservers' );
 
       // Act
       parent2.removeChild( child );
 
       // Assert
-      expect( spy.notCalled ).to.be.true;
-    } );
-
-    it( 'should not call notifyObservers of child if its not a child of this node', () => {
-      // Arrange
-      const parent1 = new TestClass();
-      const parent2 = new TestClass();
-      const child = new TestClass();
-      parent1.appendChild( child );
-      const spy = sinon.spy( child as any, 'notifyObservers' );
-
-      // Act
-      parent2.removeChild( child );
-
-      // Assert
-      expect( spy.notCalled ).to.be.true;
+      expect( spy1.notCalled ).to.be.true;
+      expect( spy2.notCalled ).to.be.true;
     } );
   } );
 
@@ -437,24 +401,8 @@ describe( 'GenericNode', () => {
       const child2 = new TestClass();
       parent.appendChild( child1 );
       parent.appendChild( child2 );
-      const spy = sinon.spy( parent as any, 'notifyObservers' );
-
-      // Act
-      parent.clearChildren();
-
-      // Assert
-      expect( spy.calledOnce ).to.be.true;
-    } );
-
-    it( 'should call notifyObservers of children', () => {
-      // Arrange
-      const parent = new TestClass();
-      const child1 = new TestClass();
-      const child2 = new TestClass();
-      parent.appendChild( child1 );
-      parent.appendChild( child2 );
-      const spy1 = sinon.spy( child1 as any, 'notifyObservers' );
-      const spy2 = sinon.spy( child2 as any, 'notifyObservers' );
+      const spy1 = sinon.spy( parent as any, 'propagateNotifyObservers' );
+      const spy2 = sinon.spy( parent as any, 'notifyObservers' );
 
       // Act
       parent.clearChildren();
@@ -598,6 +546,39 @@ describe( 'GenericNode', () => {
 
       // Act
       node.destroyRecursive();
+
+      // Assert
+      expect( spy1.calledOnce ).to.be.true;
+      expect( spy2.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'propagateNotifyObservers', () => {
+    it( 'should call notifyObservers on itself', () => {
+      // Arrange
+      const node = new TestClass();
+      const spy = sinon.spy( ( node as any ), 'notifyObservers' );
+
+      // Act
+      ( node as any ).propagateNotifyObservers();
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers on ancestors', () => {
+      // Arrange
+      const node = new TestClass();
+      const parent = new TestClass();
+      const grandparent = new TestClass();
+      parent.appendChild( node );
+      grandparent.appendChild( parent );
+
+      const spy1 = sinon.spy( ( parent as any ), 'notifyObservers' );
+      const spy2 = sinon.spy( ( grandparent as any ), 'notifyObservers' );
+
+      // Act
+      ( node as any ).propagateNotifyObservers();
 
       // Assert
       expect( spy1.calledOnce ).to.be.true;
