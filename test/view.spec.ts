@@ -6,6 +6,56 @@ import { PresentationNode } from '../lib/presentationNode';
 import { View } from '../lib/view';
 
 describe( 'View', () => {
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach( () => {
+    sandbox = sinon.createSandbox();
+  } );
+
+  afterEach( () => {
+    sandbox.restore();
+  } );
+
+  describe( 'replicateRecursive', () => {
+    it( 'should create a PresentationNode under parent with the right sourceNode', () => {
+      // Arrange
+      const parentSource = new GraphicNode();
+      const parent = new PresentationNode( parentSource );
+
+      const sourceNode = new GraphicNode();
+
+      // Act
+      ( View as any ).replicateRecursive( parent, sourceNode );
+
+      // Assert
+      expect( parent.children.length ).to.equal( 1 );
+      expect( parent.children[ 0 ] ).to.be.instanceof( PresentationNode );
+      expect( ( parent.children[ 0 ] as any ).sourceNode ).to.equal( sourceNode );
+    } );
+
+    it( 'should call replicateRecursive with every child node of the source', () => {
+      // Arrange
+      const parentSource = new GraphicNode();
+      const parent = new PresentationNode( parentSource );
+
+      const sourceNode = new GraphicNode();
+      const child1 = new GraphicNode();
+      const child2 = new GraphicNode();
+      sourceNode.appendChild( child1 );
+      sourceNode.appendChild( child2 );
+
+      const spy = sandbox.spy( ( View as any ), 'replicateRecursive' );
+
+      // Act
+      ( View as any ).replicateRecursive( parent, sourceNode );
+
+      // Assert
+      expect( spy.callCount ).to.equal( 3 );
+      expect( spy.getCall( 1 ).args[ 1 ] ).to.equal( child1 );
+      expect( spy.getCall( 2 ).args[ 1 ] ).to.equal( child2 );
+    } );
+  } );
+
   describe( 'mountNode', () => {
     it( 'should call anchorNodeSubscriptionRemover', () => {
       // Arrange
@@ -95,7 +145,7 @@ describe( 'View', () => {
       const anchor = new GraphicNode();
       const view = new View();
       view.mountNode( anchor );
-      const spy = sinon.spy( ( View as any ), 'replicateRecursive' );
+      const spy = sandbox.spy( ( View as any ), 'replicateRecursive' );
 
       // Act
       ( view as any ).replicateDocumentTree();
