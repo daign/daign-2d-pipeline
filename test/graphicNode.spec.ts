@@ -4,9 +4,9 @@ import { Matrix3 } from '@daign/math';
 
 import { GraphicNode } from '../lib/graphicNode';
 
-describe( 'GraphicNode', () => {
-  describe( 'constructor', () => {
-    it( 'should initialize with an identity transformation', () => {
+describe( 'GraphicNode', (): void => {
+  describe( 'constructor', (): void => {
+    it( 'should initialize with an identity transformation', (): void => {
       // Act
       const g = new GraphicNode();
 

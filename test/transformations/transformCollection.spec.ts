@@ -4,9 +4,9 @@ import { Matrix3, Vector2 } from '@daign/math';
 
 import { MatrixTransform, TransformCollection } from '../../lib/transformations';
 
-describe( 'TransformCollection', () => {
-  describe( 'constructor', () => {
-    it( 'should initialize with identity matrices', () => {
+describe( 'TransformCollection', (): void => {
+  describe( 'constructor', (): void => {
+    it( 'should initialize with identity matrices', (): void => {
       // Act
       const t = new TransformCollection();
 
@@ -17,8 +17,8 @@ describe( 'TransformCollection', () => {
     } );
   } );
 
-  describe( 'onItemUpdate', () => {
-    it( 'should combine transformations when transformations are added', () => {
+  describe( 'onItemUpdate', (): void => {
+    it( 'should combine transformations when transformations are added', (): void => {
       // Arrange
       const t = new TransformCollection();
       const m1 = new MatrixTransform();
@@ -36,7 +36,7 @@ describe( 'TransformCollection', () => {
       expect( t.transformMatrix.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should combine transformations in the correct order', () => {
+    it( 'should combine transformations in the correct order', (): void => {
       // Arrange
       const t = new TransformCollection();
       const m1 = new MatrixTransform();
@@ -56,7 +56,7 @@ describe( 'TransformCollection', () => {
       expect( v.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should calculate the correct inverse transformation', () => {
+    it( 'should calculate the correct inverse transformation', (): void => {
       // Arrange
       const t = new TransformCollection();
       const m1 = new MatrixTransform();
@@ -76,7 +76,7 @@ describe( 'TransformCollection', () => {
       expect( v.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should combine transformations when the transformations change', () => {
+    it( 'should combine transformations when the transformations change', (): void => {
       // Arrange
       const t = new TransformCollection();
       const m1 = new MatrixTransform();
@@ -94,7 +94,7 @@ describe( 'TransformCollection', () => {
       expect( t.transformMatrix.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should keep the previous inverse matrix if the current can not be inverted', () => {
+    it( 'should keep the previous inverse matrix if the current can not be inverted', (): void => {
       // Arrange
       const t = new TransformCollection();
       const m = new MatrixTransform();

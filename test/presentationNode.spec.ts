@@ -8,27 +8,29 @@ import { MatrixTransform } from '../lib/transformations';
 import { GraphicNode } from '../lib/graphicNode';
 import { PresentationNode } from '../lib/presentationNode';
 
-describe( 'PresentationNode', () => {
-  describe( 'constructor', () => {
-    it( 'should call updateProjectionMatrices when transformation of sourceNode changes', () => {
-      // Arrange
-      const transformation = new MatrixTransform();
-      const source = new GraphicNode();
-      source.transformation.append( transformation );
+describe( 'PresentationNode', (): void => {
+  describe( 'constructor', (): void => {
+    it( 'should call updateProjectionMatrices when transformation of sourceNode changes',
+      (): void => {
+        // Arrange
+        const transformation = new MatrixTransform();
+        const source = new GraphicNode();
+        source.transformation.append( transformation );
 
-      const node = new PresentationNode( source );
-      const spy = sinon.spy( node, 'updateProjectionMatrices' );
+        const node = new PresentationNode( source );
+        const spy = sinon.spy( node, 'updateProjectionMatrices' );
 
-      // Act
-      transformation.matrix.setTranslation( new Vector2( 1, 2 ) );
+        // Act
+        transformation.matrix.setTranslation( new Vector2( 1, 2 ) );
 
-      // Assert
-      expect( spy.calledOnce ).to.be.true;
-    } );
+        // Assert
+        expect( spy.calledOnce ).to.be.true;
+      }
+    );
   } );
 
-  describe( 'updateProjectionMatrices', () => {
-    it( 'should copy the source node transformation when no parent exists', () => {
+  describe( 'updateProjectionMatrices', (): void => {
+    it( 'should copy the source node transformation when no parent exists', (): void => {
       // Arrange
       const translation = new Matrix3().setTranslation( new Vector2( 1, 2 ) );
       const transformation = new MatrixTransform();
@@ -44,7 +46,7 @@ describe( 'PresentationNode', () => {
       expect( node.projectViewToNode.equals( translation ) ).to.be.true;
     } );
 
-    it( 'should combine transformation with the projection of the parent node', () => {
+    it( 'should combine transformation with the projection of the parent node', (): void => {
       // Arrange
       const translation1 = new Matrix3().setTranslation( new Vector2( 1, 2 ) );
       const translation2 = new Matrix3().setTranslation( new Vector2( 3, 4 ) );
@@ -72,7 +74,7 @@ describe( 'PresentationNode', () => {
       expect( node.projectViewToNode.equals( combinedTranslation ) ).to.be.true;
     } );
 
-    it( 'should set the inverse projection', () => {
+    it( 'should set the inverse projection', (): void => {
       // Arrange
       const translation = new Matrix3().setTranslation( new Vector2( 1, 2 ) );
       const inverseTranslation = new Matrix3().setTranslation( new Vector2( -1, -2 ) );
@@ -89,7 +91,7 @@ describe( 'PresentationNode', () => {
       expect( node.projectNodeToView.equals( inverseTranslation ) ).to.be.true;
     } );
 
-    it( 'should call updateProjectionMatrices on all children', () => {
+    it( 'should call updateProjectionMatrices on all children', (): void => {
       // Arrange
       const source = new GraphicNode();
       const node = new PresentationNode( source );

@@ -5,9 +5,9 @@ import { Matrix3, Vector2 } from '@daign/math';
 
 import { MatrixTransform } from '../../lib/transformations';
 
-describe( 'MatrixTransform', () => {
-  describe( 'constructor', () => {
-    it( 'should initialize with identity matrix', () => {
+describe( 'MatrixTransform', (): void => {
+  describe( 'constructor', (): void => {
+    it( 'should initialize with identity matrix', (): void => {
       // Act
       const m = new MatrixTransform();
 
@@ -16,7 +16,7 @@ describe( 'MatrixTransform', () => {
       expect( m.matrix.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should notify observers if matrix changes', () => {
+    it( 'should notify observers if matrix changes', (): void => {
       // Arrange
       const m = new MatrixTransform();
       const spy = sinon.spy( m as any, 'notifyObservers' );

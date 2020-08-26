@@ -14,7 +14,7 @@ export class View extends GraphicNode {
     const presentationNode = new PresentationNode( sourceNode );
     parent.appendChild( presentationNode );
 
-    sourceNode.children.forEach( ( sourceChild: GraphicNode ) => {
+    sourceNode.children.forEach( ( sourceChild: GraphicNode ): void => {
       View.replicateRecursive( presentationNode, sourceChild );
     } );
   }

@@ -5,19 +5,19 @@ import { GraphicNode } from '../lib/graphicNode';
 import { PresentationNode } from '../lib/presentationNode';
 import { View } from '../lib/view';
 
-describe( 'View', () => {
+describe( 'View', (): void => {
   let sandbox: sinon.SinonSandbox;
 
-  beforeEach( () => {
+  beforeEach( (): void => {
     sandbox = sinon.createSandbox();
   } );
 
-  afterEach( () => {
+  afterEach( (): void => {
     sandbox.restore();
   } );
 
-  describe( 'replicateRecursive', () => {
-    it( 'should create a PresentationNode under parent with the right sourceNode', () => {
+  describe( 'replicateRecursive', (): void => {
+    it( 'should create a PresentationNode under parent with the right sourceNode', (): void => {
       // Arrange
       const parentSource = new GraphicNode();
       const parent = new PresentationNode( parentSource );
@@ -33,7 +33,7 @@ describe( 'View', () => {
       expect( ( parent.children[ 0 ] as any ).sourceNode ).to.equal( sourceNode );
     } );
 
-    it( 'should call replicateRecursive with every child node of the source', () => {
+    it( 'should call replicateRecursive with every child node of the source', (): void => {
       // Arrange
       const parentSource = new GraphicNode();
       const parent = new PresentationNode( parentSource );
@@ -56,8 +56,8 @@ describe( 'View', () => {
     } );
   } );
 
-  describe( 'mountNode', () => {
-    it( 'should call anchorNodeSubscriptionRemover', () => {
+  describe( 'mountNode', (): void => {
+    it( 'should call anchorNodeSubscriptionRemover', (): void => {
       // Arrange
       const anchor = new GraphicNode();
       const view = new View();
@@ -71,7 +71,7 @@ describe( 'View', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should call replicateDocumentTree', () => {
+    it( 'should call replicateDocumentTree', (): void => {
       // Arrange
       const anchor = new GraphicNode();
       const view = new View();
@@ -84,7 +84,7 @@ describe( 'View', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should call replicateDocumentTree when the original document changes', () => {
+    it( 'should call replicateDocumentTree when the original document changes', (): void => {
       // Arrange
       const parent = new GraphicNode();
       const child = new GraphicNode();
@@ -103,8 +103,8 @@ describe( 'View', () => {
     } );
   } );
 
-  describe( 'replicateDocumentTree', () => {
-    it( 'should call destroyDocumentTree', () => {
+  describe( 'replicateDocumentTree', (): void => {
+    it( 'should call destroyDocumentTree', (): void => {
       // Arrange
       const view = new View();
       const spy = sinon.spy( ( view as any ), 'destroyDocumentTree' );
@@ -116,7 +116,7 @@ describe( 'View', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should create the viewPresentationNode', () => {
+    it( 'should create the viewPresentationNode', (): void => {
       // Arrange
       const anchor = new GraphicNode();
       const view = new View();
@@ -129,7 +129,7 @@ describe( 'View', () => {
       expect( ( view as any ).viewPresentationNode ).to.be.instanceof( PresentationNode );
     } );
 
-    it( 'should not create a viewPresentationNode when anchorNode is null', () => {
+    it( 'should not create a viewPresentationNode when anchorNode is null', (): void => {
       // Arrange
       const view = new View();
 
@@ -140,7 +140,7 @@ describe( 'View', () => {
       expect( ( view as any ).viewPresentationNode ).to.be.null;
     } );
 
-    it( 'should call replicateRecursive with viewPresentationNode and anchorNode', () => {
+    it( 'should call replicateRecursive with viewPresentationNode and anchorNode', (): void => {
       // Arrange
       const anchor = new GraphicNode();
       const view = new View();
@@ -158,8 +158,8 @@ describe( 'View', () => {
     } );
   } );
 
-  describe( 'destroyDocumentTree', () => {
-    it( 'should call destroyRecursive on viewPresentationNode', () => {
+  describe( 'destroyDocumentTree', (): void => {
+    it( 'should call destroyRecursive on viewPresentationNode', (): void => {
       // Arrange
       const anchor = new GraphicNode();
       const view = new View();
@@ -174,7 +174,7 @@ describe( 'View', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should set viewPresentationNode to null', () => {
+    it( 'should set viewPresentationNode to null', (): void => {
       // Arrange
       const anchor = new GraphicNode();
       const view = new View();
@@ -187,7 +187,7 @@ describe( 'View', () => {
       expect( ( view as any ).viewPresentationNode ).to.be.null;
     } );
 
-    it( 'should not throw error when viewPresentationNode is null', () => {
+    it( 'should not throw error when viewPresentationNode is null', (): void => {
       // Arrange
       const view = new View();
 

@@ -21,9 +21,9 @@ class TestCollection extends NamedCollection<TestItem> {
   }
 }
 
-describe( 'NamedCollection', () => {
-  describe( 'append', () => {
-    it( 'should append item to array', () => {
+describe( 'NamedCollection', (): void => {
+  describe( 'append', (): void => {
+    it( 'should append item to array', (): void => {
       // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
@@ -35,7 +35,7 @@ describe( 'NamedCollection', () => {
       expect( collection.items[ 0 ] ).to.equal( item );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
@@ -48,7 +48,7 @@ describe( 'NamedCollection', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should call onItemUpdate', () => {
+    it( 'should call onItemUpdate', (): void => {
       // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
@@ -61,7 +61,7 @@ describe( 'NamedCollection', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should add to namedMapping when name is passed', () => {
+    it( 'should add to namedMapping when name is passed', (): void => {
       // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
@@ -74,7 +74,7 @@ describe( 'NamedCollection', () => {
       expect( ( collection as any ).namedMapping[ name ] ).to.equal( item );
     } );
 
-    it( 'should not add to namedMapping when no name is passed', () => {
+    it( 'should not add to namedMapping when no name is passed', (): void => {
       // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
@@ -87,7 +87,7 @@ describe( 'NamedCollection', () => {
       expect( ( collection as any ).namedMapping[ name ] ).to.be.undefined;
     } );
 
-    it( 'should throw error if name already exists in mapping', () => {
+    it( 'should throw error if name already exists in mapping', (): void => {
       // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
@@ -104,7 +104,7 @@ describe( 'NamedCollection', () => {
       expect( badFn ).to.throw( 'Name is not unique.' );
     } );
 
-    it( 'should notify observers if item changes', () => {
+    it( 'should notify observers if item changes', (): void => {
       // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
@@ -118,7 +118,7 @@ describe( 'NamedCollection', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should call onItemUpdate if item changes', () => {
+    it( 'should call onItemUpdate if item changes', (): void => {
       // Arrange
       const collection = new TestCollection();
       const item = new TestItem();
@@ -133,8 +133,8 @@ describe( 'NamedCollection', () => {
     } );
   } );
 
-  describe( 'byName', () => {
-    it( 'should return item', () => {
+  describe( 'byName', (): void => {
+    it( 'should return item', (): void => {
       // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();
@@ -148,7 +148,7 @@ describe( 'NamedCollection', () => {
       expect( result ).to.equal( item );
     } );
 
-    it( 'should throw error when item is not in the named mapping', () => {
+    it( 'should throw error when item is not in the named mapping', (): void => {
       // Arrange
       const name = 'SomeName';
       const collection = new TestCollection();

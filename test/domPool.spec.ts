@@ -7,13 +7,13 @@ import { DomPool } from '../lib/domPool';
 
 declare var global: any;
 
-describe( 'DomPool', () => {
-  beforeEach( () => {
+describe( 'DomPool', (): void => {
+  beforeEach( (): void => {
     global.document = new MockDocument();
   } );
 
-  describe( 'get', () => {
-    it( 'should return a node of type MockNode', () => {
+  describe( 'get', (): void => {
+    it( 'should return a node of type MockNode', (): void => {
       // Act
       const node = DomPool.get( 'div' );
 
@@ -21,7 +21,7 @@ describe( 'DomPool', () => {
       expect( node ).to.be.instanceof( MockNode );
     } );
 
-    it( 'should return a node with correct properties', () => {
+    it( 'should return a node with correct properties', (): void => {
       // Arrange
       const nodeName = 'div';
       const nameSpace = 'http://www.w3.org/1999/xhtml';
@@ -34,7 +34,7 @@ describe( 'DomPool', () => {
       expect( node.namespaceURI ).to.equal( nameSpace );
     } );
 
-    it( 'should return a node with correct name space if passed', () => {
+    it( 'should return a node with correct name space if passed', (): void => {
       // Arrange
       const nodeName = 'circle';
       const nameSpace = 'http://www.w3.org/2000/svg';
@@ -47,7 +47,7 @@ describe( 'DomPool', () => {
       expect( node.namespaceURI ).to.equal( nameSpace );
     } );
 
-    it( 'should return a node that was previously added to the pool', () => {
+    it( 'should return a node that was previously added to the pool', (): void => {
       // Arrange
       const nodeName = 'circle';
       const nameSpace = 'http://www.w3.org/2000/svg';
@@ -61,7 +61,7 @@ describe( 'DomPool', () => {
       expect( newNode === node ).to.be.true;
     } );
 
-    it( 'should return multiple nodes added to the pool', () => {
+    it( 'should return multiple nodes added to the pool', (): void => {
       // Arrange
       const nodeName = 'circle';
       const nameSpace = 'http://www.w3.org/2000/svg';
@@ -79,7 +79,7 @@ describe( 'DomPool', () => {
       expect( newNode2 === node2 ).to.be.true;
     } );
 
-    it( 'should create a new node if category exists but is empty', () => {
+    it( 'should create a new node if category exists but is empty', (): void => {
       // Arrange
       const nodeName = 'div';
 
@@ -101,8 +101,8 @@ describe( 'DomPool', () => {
   } );
 
   // This is for coverage of the abstract class definition.
-  describe( 'class definition', () => {
-    it( 'should be extendable', () => {
+  describe( 'class definition', (): void => {
+    it( 'should be extendable', (): void => {
       // Act
       class Test extends DomPool {}
       const test = new Test();
