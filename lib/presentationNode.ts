@@ -44,14 +44,14 @@ export class PresentationNode extends GenericNode<PresentationNode> {
   public updateProjectionMatrices(): void {
     if ( this.parent !== null ) {
       // The projection of the parent combined with the own transformation.
-      this.projectViewToNode.copy( this.parent.projectViewToNode );
-      this.projectViewToNode.transform( this.sourceNode.transformation.transformMatrix );
+      this.projectNodeToView.copy( this.parent.projectNodeToView );
+      this.projectNodeToView.transform( this.sourceNode.transformation.transformMatrix );
     } else {
       // When no parent exists the projection is equal to the own transformation.
-      this.projectViewToNode.copy( this.sourceNode.transformation.transformMatrix );
+      this.projectNodeToView.copy( this.sourceNode.transformation.transformMatrix );
     }
 
-    this.projectNodeToView.setToInverse( this.projectViewToNode );
+    this.projectViewToNode.setToInverse( this.projectNodeToView );
 
     this.children.forEach( ( child: PresentationNode ): void => {
       child.updateProjectionMatrices();

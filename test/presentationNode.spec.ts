@@ -43,7 +43,7 @@ describe( 'PresentationNode', (): void => {
       node.updateProjectionMatrices();
 
       // Assert
-      expect( node.projectViewToNode.equals( translation ) ).to.be.true;
+      expect( node.projectNodeToView.equals( translation ) ).to.be.true;
     } );
 
     it( 'should combine transformation with the projection of the parent node', (): void => {
@@ -71,7 +71,7 @@ describe( 'PresentationNode', (): void => {
       node.updateProjectionMatrices();
 
       // Assert
-      expect( node.projectViewToNode.equals( combinedTranslation ) ).to.be.true;
+      expect( node.projectNodeToView.equals( combinedTranslation ) ).to.be.true;
     } );
 
     it( 'should set the inverse projection', (): void => {
@@ -88,7 +88,7 @@ describe( 'PresentationNode', (): void => {
       node.updateProjectionMatrices();
 
       // Assert
-      expect( node.projectNodeToView.equals( inverseTranslation ) ).to.be.true;
+      expect( node.projectViewToNode.equals( inverseTranslation ) ).to.be.true;
     } );
 
     it( 'should call updateProjectionMatrices on all children', (): void => {
