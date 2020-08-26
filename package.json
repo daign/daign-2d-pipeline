@@ -1,6 +1,6 @@
 {
   "name": "@daign/2d-pipeline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Two dimensional graphics pipeline.",
   "keywords": [
     "graphics",
