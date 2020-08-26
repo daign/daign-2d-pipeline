@@ -11,6 +11,11 @@ export class GraphicNode extends GenericNode<GraphicNode> {
   public transformation: TransformCollection = new TransformCollection();
 
   /**
+   * Differentiate between different type of nodes.
+   */
+  public type: string | null = null;
+
+  /**
    * Constructor.
    */
   public constructor() {

@@ -20,7 +20,7 @@ export class PresentationNode extends GenericNode<PresentationNode> {
   /**
    * The source from which this node is copied.
    */
-  private sourceNode: GraphicNode;
+  public sourceNode: GraphicNode;
 
   /**
    * Constructor.

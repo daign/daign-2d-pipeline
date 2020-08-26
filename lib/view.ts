@@ -32,7 +32,7 @@ export class View extends GraphicNode {
   /**
    * The representation of the view and root of the replicated tree.
    */
-  private viewPresentationNode: PresentationNode | null = null;
+  public viewPresentationNode: PresentationNode | null = null;
 
   /**
    * Constructor.
