@@ -22,7 +22,7 @@ export class View extends GraphicNode {
   /**
    * The root of the subtree to be rendered.
    */
-  private anchorNode: GraphicNode | null = null;
+  protected anchorNode: GraphicNode | null = null;
 
   /**
    * Callback to remove subscriptions when the source node changes.
