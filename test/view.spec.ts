@@ -5,6 +5,16 @@ import { GraphicNode } from '../lib/graphicNode';
 import { PresentationNode } from '../lib/presentationNode';
 import { View } from '../lib/view';
 
+class TestView extends View {
+  public constructor() {
+    super();
+  }
+
+  public accessAnchorNode(): GraphicNode | null {
+    return this.anchorNode;
+  }
+}
+
 describe( 'View', (): void => {
   let sandbox: sinon.SinonSandbox;
 
@@ -14,6 +24,23 @@ describe( 'View', (): void => {
 
   afterEach( (): void => {
     sandbox.restore();
+  } );
+
+  describe( 'anchorNode', (): void => {
+    it( 'should not throw error if a derived class tries to access the anchor node property',
+      (): void => {
+        // Arrange
+        const view = new TestView();
+
+        // Act
+        const badFn = (): void => {
+          view.accessAnchorNode();
+        };
+
+        // Assert
+        expect( badFn ).to.not.throw();
+      }
+    );
   } );
 
   describe( 'replicateRecursive', (): void => {
