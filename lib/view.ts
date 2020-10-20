@@ -6,20 +6,6 @@ import { PresentationNode } from './presentationNode';
  */
 export class View extends GraphicNode {
   /**
-   * Recursively create copies of all graphic nodes.
-   * @param parent The node that will be the parent of the source node's copy.
-   * @param sourceNode The graphic node to copy.
-   */
-  private static replicateRecursive( parent: PresentationNode, sourceNode: GraphicNode ): void {
-    const presentationNode = new PresentationNode( sourceNode );
-    parent.appendChild( presentationNode );
-
-    sourceNode.children.forEach( ( sourceChild: GraphicNode ): void => {
-      View.replicateRecursive( presentationNode, sourceChild );
-    } );
-  }
-
-  /**
    * The root of the subtree to be rendered.
    */
   protected anchorNode: GraphicNode | null = null;
@@ -71,12 +57,26 @@ export class View extends GraphicNode {
 
     // Start the creation if an anchor node exists.
     if ( this.anchorNode !== null ) {
-      this.viewPresentationNode = new PresentationNode( this );
-      View.replicateRecursive( this.viewPresentationNode, this.anchorNode );
+      this.viewPresentationNode = new PresentationNode( this, this );
+      this.replicateRecursive( this.viewPresentationNode, this.anchorNode );
 
       // Update the projection matrices when the tree has been created.
       this.viewPresentationNode.updateProjectionMatrices();
     }
+  }
+
+  /**
+   * Recursively create copies of all graphic nodes.
+   * @param parent The node that will be the parent of the source node's copy.
+   * @param sourceNode The graphic node to copy.
+   */
+  private replicateRecursive( parent: PresentationNode, sourceNode: GraphicNode ): void {
+    const presentationNode = new PresentationNode( this, sourceNode );
+    parent.appendChild( presentationNode );
+
+    sourceNode.children.forEach( ( sourceChild: GraphicNode ): void => {
+      this.replicateRecursive( presentationNode, sourceChild );
+    } );
   }
 
   /**
