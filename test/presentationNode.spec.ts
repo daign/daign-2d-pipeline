@@ -62,6 +62,34 @@ describe( 'PresentationNode', (): void => {
         expect( spy.notCalled ).to.be.true;
       }
     );
+
+    it( 'should notify observers of projectNodeToView matrix when parents transformation changes',
+      (): void => {
+        // Arrange
+        const parentTransformation = new MatrixTransform();
+        parentTransformation.matrix.setTranslation( new Vector2( 1, 2 ) );
+        const parent = new GraphicNode();
+        parent.transformation.append( parentTransformation );
+
+        const child = new GraphicNode();
+        parent.appendChild( child );
+
+        const view = new View();
+        view.mountNode( parent );
+
+        const presentationNode = child.presentationNodes[ 0 ];
+        const spy = sinon.spy();
+        presentationNode.projectNodeToView.subscribeToChanges( (): void => {
+          spy();
+        } );
+
+        // Act
+        parentTransformation.matrix.setTranslation( new Vector2( 2, 5 ) );
+
+        // Assert
+        expect( spy.called ).to.be.true;
+      }
+    );
   } );
 
   describe( 'updateProjectionMatrices', (): void => {
