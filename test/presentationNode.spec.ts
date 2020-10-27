@@ -30,7 +30,7 @@ describe( 'PresentationNode', (): void => {
         const view = new View();
         const transformation = new MatrixTransform();
         const source = new GraphicNode();
-        source.transformation.append( transformation );
+        source.transformation.push( transformation );
 
         const node = new PresentationNode( view, source );
         const spy = sinon.spy( node, 'updateProjectionMatrices' );
@@ -49,7 +49,7 @@ describe( 'PresentationNode', (): void => {
         const view = new View();
         const transformation = new MatrixTransform();
         const source = new GraphicNode();
-        source.transformation.append( transformation );
+        source.transformation.push( transformation );
 
         const node = new PresentationNode( view, source );
         const spy = sinon.spy( node, 'updateProjectionMatrices' );
@@ -69,7 +69,7 @@ describe( 'PresentationNode', (): void => {
         const parentTransformation = new MatrixTransform();
         parentTransformation.matrix.setTranslation( new Vector2( 1, 2 ) );
         const parent = new GraphicNode();
-        parent.transformation.append( parentTransformation );
+        parent.transformation.push( parentTransformation );
 
         const child = new GraphicNode();
         parent.appendChild( child );
@@ -100,7 +100,7 @@ describe( 'PresentationNode', (): void => {
       const transformation = new MatrixTransform();
       transformation.matrix.copy( translation );
       const source = new GraphicNode();
-      source.transformation.append( transformation );
+      source.transformation.push( transformation );
       const node = new PresentationNode( view, source );
 
       // Act
@@ -120,14 +120,14 @@ describe( 'PresentationNode', (): void => {
       const parentTransformation = new MatrixTransform();
       parentTransformation.matrix.copy( translation1 );
       const parentSource = new GraphicNode();
-      parentSource.transformation.append( parentTransformation );
+      parentSource.transformation.push( parentTransformation );
       const parent = new PresentationNode( view, parentSource );
       parent.updateProjectionMatrices();
 
       const transformation = new MatrixTransform();
       transformation.matrix.copy( translation2 );
       const source = new GraphicNode();
-      source.transformation.append( transformation );
+      source.transformation.push( transformation );
       const node = new PresentationNode( view, source );
 
       parent.appendChild( node );
@@ -147,7 +147,7 @@ describe( 'PresentationNode', (): void => {
       const transformation = new MatrixTransform();
       transformation.matrix.copy( translation );
       const source = new GraphicNode();
-      source.transformation.append( transformation );
+      source.transformation.push( transformation );
       const node = new PresentationNode( view, source );
 
       // Act
