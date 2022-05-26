@@ -28,9 +28,9 @@ describe( 'UsageExamples', (): void => {
 
       // Set a transformation on the first element.
       // The transformation will also apply on all children of the node.
-      const scaling = new MatrixTransform();
-      scaling.matrix.applyScaling( new Vector2( 3, 3 ) );
-      node1.transformation.push( scaling );
+      const matrixTransform = new MatrixTransform();
+      matrixTransform.matrix.applyScaling( new Vector2( 3, 3 ) );
+      node1.transformation.push( matrixTransform );
 
       // Create a view.
       const view = new View();
