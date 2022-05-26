@@ -69,9 +69,9 @@ describe( 'TransformCollection', (): void => {
       // Arrange
       const t = new TransformCollection();
       const m1 = new MatrixTransform();
-      m1.matrix.setTranslation( new Vector2( 1, 2 ) );
+      m1.matrix.setScaling( new Vector2( 2, 3 ) );
       const m2 = new MatrixTransform();
-      m2.matrix.setScaling( new Vector2( 2, 3 ) );
+      m2.matrix.setTranslation( new Vector2( 1, 2 ) );
 
       // Act
       // Order of append is important.
@@ -87,9 +87,9 @@ describe( 'TransformCollection', (): void => {
       // Arrange
       const t = new TransformCollection();
       const m1 = new MatrixTransform();
-      m1.matrix.setTranslation( new Vector2( 1, 2 ) );
+      m1.matrix.setScaling( new Vector2( 2, 3 ) );
       const m2 = new MatrixTransform();
-      m2.matrix.setScaling( new Vector2( 2, 3 ) );
+      m2.matrix.setTranslation( new Vector2( 1, 2 ) );
       // Order of append is important.
       t.push( m1 );
       t.push( m2 );
@@ -107,9 +107,9 @@ describe( 'TransformCollection', (): void => {
       // Arrange
       const t = new TransformCollection();
       const m1 = new MatrixTransform();
-      m1.matrix.setTranslation( new Vector2( 1, 2 ) );
+      m1.matrix.setScaling( new Vector2( 2, 3 ) );
       const m2 = new MatrixTransform();
-      m2.matrix.setScaling( new Vector2( 2, 3 ) );
+      m2.matrix.setTranslation( new Vector2( 1, 2 ) );
       // Order of append is important.
       t.push( m1 );
       t.push( m2 );
@@ -133,8 +133,8 @@ describe( 'TransformCollection', (): void => {
 
       // Act
       // Order of modification is not important.
-      m2.matrix.setScaling( new Vector2( 2, 3 ) );
-      m1.matrix.setTranslation( new Vector2( 1, 2 ) );
+      m2.matrix.setTranslation( new Vector2( 1, 2 ) );
+      m1.matrix.setScaling( new Vector2( 2, 3 ) );
 
       // Assert
       const expected = new Matrix3( 2, 0, 2, 0, 3, 6, 0, 0, 1 );

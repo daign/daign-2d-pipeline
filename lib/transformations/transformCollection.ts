@@ -4,7 +4,7 @@ import { MatrixTransform } from './matrixTransform';
 
 /**
  * Collection of transformations combined into a single transformation.
- * The transformations are applied in order from lowest to highest index.
+ * The transformations are applied in order from highest to lowest index.
  */
 export class TransformCollection extends GenericArray<MatrixTransform> {
   /**
@@ -34,7 +34,7 @@ export class TransformCollection extends GenericArray<MatrixTransform> {
   private combineTransformations(): void {
     this.transformMatrix.setIdentity();
     this.iterate( ( item: MatrixTransform ): void => {
-      this.transformMatrix.transform( item.matrix );
+      this.transformMatrix.multiply( item.matrix );
     } );
 
     try {

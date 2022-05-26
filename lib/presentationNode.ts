@@ -61,8 +61,8 @@ export class PresentationNode extends GenericNode<PresentationNode> {
     if ( this.sourceNode !== null ) {
       if ( this.parent !== null ) {
         // The projection of the parent combined with the own transformation.
-        this.projectNodeToView.copy( this.parent.projectNodeToView );
-        this.projectNodeToView.transform( this.sourceNode.transformation.transformMatrix );
+        this.projectNodeToView.copy( this.sourceNode.transformation.transformMatrix );
+        this.projectNodeToView.transform( this.parent.projectNodeToView );
       } else {
         // When no parent exists the projection is equal to the own transformation.
         this.projectNodeToView.copy( this.sourceNode.transformation.transformMatrix );
