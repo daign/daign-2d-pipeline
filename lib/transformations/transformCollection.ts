@@ -1,12 +1,12 @@
 import { GenericArray, Matrix3 } from '@daign/math';
 
-import { MatrixTransform } from './matrixTransform';
+import { Transform } from './transform';
 
 /**
  * Collection of transformations combined into a single transformation.
  * The transformations are applied in order from highest to lowest index.
  */
-export class TransformCollection extends GenericArray<MatrixTransform> {
+export class TransformCollection extends GenericArray<Transform> {
   /**
    * The transformation matrix.
    */
@@ -16,6 +16,16 @@ export class TransformCollection extends GenericArray<MatrixTransform> {
    * The matrix of the inverse transformation.
    */
   public inverseTransformMatrix: Matrix3 = new Matrix3().setIdentity();
+
+  /**
+   * The transformation matrix, not including native transforms.
+   */
+  public transformMatrixNonNative: Matrix3 = new Matrix3().setIdentity();
+
+  /**
+   * The native SVG transform attribute string.
+   */
+  public nativeSvgTransform: string | null = null;
 
   /**
    * Constructor.
@@ -33,9 +43,25 @@ export class TransformCollection extends GenericArray<MatrixTransform> {
    */
   private combineTransformations(): void {
     this.transformMatrix.setIdentity();
-    this.iterate( ( item: MatrixTransform ): void => {
+    this.transformMatrixNonNative.setIdentity();
+    this.nativeSvgTransform = null;
+
+    const nativeTransformsArray: string[] = [];
+
+    this.iterate( ( item: Transform ): void => {
       this.transformMatrix.multiply( item.matrix );
+      this.transformMatrixNonNative.multiply( item.matrixNonNative );
+
+      // Put the native transforms in an array in opposite order.
+      if ( item.nativeSvgTransform ) {
+        nativeTransformsArray.unshift( item.nativeSvgTransform );
+      }
     } );
+
+    // Create the joined native SVG transform command if the array is not empty.
+    if ( nativeTransformsArray.length > 0 ) {
+      this.nativeSvgTransform = nativeTransformsArray.join( ', ' );
+    }
 
     try {
       this.inverseTransformMatrix.setToInverse( this.transformMatrix );

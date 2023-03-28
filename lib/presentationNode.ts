@@ -19,6 +19,12 @@ export class PresentationNode extends GenericNode<PresentationNode> {
   public projectNodeToView: Matrix3 = new Matrix3().setIdentity();
 
   /**
+   * The projection from the coordinates of the element to view coordinates, not including native
+   * transforms.
+   */
+  public projectNodeToViewNonNative: Matrix3 = new Matrix3().setIdentity();
+
+  /**
    * The view to which this node belongs.
    */
   public view: View | null;
@@ -63,9 +69,20 @@ export class PresentationNode extends GenericNode<PresentationNode> {
         // The projection of the parent combined with the own transformation.
         this.projectNodeToView.copy( this.sourceNode.transformation.transformMatrix );
         this.projectNodeToView.transform( this.parent.projectNodeToView );
+
+        // The projection not including native transforms.
+        this.projectNodeToViewNonNative.copy(
+          this.sourceNode.transformation.transformMatrixNonNative
+        );
+        this.projectNodeToViewNonNative.transform( this.parent.projectNodeToViewNonNative );
       } else {
         // When no parent exists the projection is equal to the own transformation.
         this.projectNodeToView.copy( this.sourceNode.transformation.transformMatrix );
+
+        // The projection not including native transforms.
+        this.projectNodeToViewNonNative.copy(
+          this.sourceNode.transformation.transformMatrixNonNative
+        );
       }
 
       this.projectViewToNode.setToInverse( this.projectNodeToView );

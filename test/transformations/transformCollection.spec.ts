@@ -1,9 +1,11 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import { spy } from 'sinon';
 
-import { Matrix3, Vector2 } from '@daign/math';
+import { Angle, Matrix3, Vector2 } from '@daign/math';
 
-import { MatrixTransform, TransformCollection } from '../../lib/transformations';
+import {
+  MatrixTransform, NativeRotateTransform, NativeTranslateTransform, TransformCollection
+} from '../../lib';
 
 describe( 'TransformCollection', (): void => {
   describe( 'constructor', (): void => {
@@ -20,7 +22,7 @@ describe( 'TransformCollection', (): void => {
     it( 'should call combineTransformations when a transformation is added', (): void => {
       // Arrange
       const t = new TransformCollection();
-      const spy = sinon.spy( t as any, 'combineTransformations' );
+      const combineTransformationsSpy = spy( t as any, 'combineTransformations' );
 
       // Act
       const m = new MatrixTransform();
@@ -28,7 +30,7 @@ describe( 'TransformCollection', (): void => {
       t.push( m );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( combineTransformationsSpy.calledOnce ).to.be.true;
     } );
 
     it( 'should call combineTransformations when a transformation changes', (): void => {
@@ -36,13 +38,13 @@ describe( 'TransformCollection', (): void => {
       const t = new TransformCollection();
       const m = new MatrixTransform();
       t.push( m );
-      const spy = sinon.spy( t as any, 'combineTransformations' );
+      const combineTransformationsSpy = spy( t as any, 'combineTransformations' );
 
       // Act
       m.matrix.setTranslation( new Vector2( 1, 2 ) );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( combineTransformationsSpy.calledOnce ).to.be.true;
     } );
 
     it( 'should combine transformations before alerting other observers', (): void => {
@@ -121,6 +123,59 @@ describe( 'TransformCollection', (): void => {
       // Assert
       const expected = new Vector2( 0, 0 );
       expect( v.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should calculate the correct non native transformation', (): void => {
+      // Arrange
+      const t = new TransformCollection();
+      const matrixTransform = new MatrixTransform();
+      matrixTransform.matrix.setScaling( new Vector2( 2, 3 ) );
+      const nativeTransform = new NativeTranslateTransform();
+      nativeTransform.translation.copy( new Vector2( 4, 5 ) );
+      t.push( matrixTransform );
+      t.push( nativeTransform );
+
+      // Act
+      const v = new Vector2( 1, 2 );
+      v.transform( t.transformMatrixNonNative );
+
+      // Assert
+      const expected = new Vector2( 2, 6 );
+      expect( v.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should calculate the correct native transform command', (): void => {
+      // Arrange
+      const t = new TransformCollection();
+      const nativeTransform1 = new NativeTranslateTransform();
+      nativeTransform1.translation.copy( new Vector2( 1, 2 ) );
+      const nativeTransform2 = new NativeRotateTransform();
+      nativeTransform2.angle.copy( new Angle().setDegrees( 30 ) );
+      nativeTransform2.center.copy( new Vector2( 4, 5 ) );
+      t.push( nativeTransform1 );
+      t.push( nativeTransform2 );
+
+      // Act
+      const nativeTransformCommand = t.nativeSvgTransform;
+
+      // Assert
+      expect( nativeTransformCommand ).to.equal(
+        'rotate(29.999999999999996, 4, 5), translate(1, 2)'
+      );
+    } );
+
+    it( 'should return null if there are no native transform commands', (): void => {
+      // Arrange
+      const t = new TransformCollection();
+      const matrixTransform = new MatrixTransform();
+      matrixTransform.matrix.setScaling( new Vector2( 2, 3 ) );
+      t.push( matrixTransform );
+
+      // Act
+      const nativeTransformCommand = t.nativeSvgTransform;
+
+      // Assert
+      expect( nativeTransformCommand ).to.be.null;
     } );
 
     it( 'should combine transformations when the transformations change', (): void => {
