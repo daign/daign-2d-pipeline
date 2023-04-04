@@ -52,9 +52,9 @@ export class TransformCollection extends GenericArray<Transform> {
       this.transformMatrix.multiply( item.matrix );
       this.transformMatrixNonNative.multiply( item.matrixNonNative );
 
-      // Put the native transforms in an array in opposite order.
+      // Put the native transforms in an array.
       if ( item.nativeSvgTransform ) {
-        nativeTransformsArray.unshift( item.nativeSvgTransform );
+        nativeTransformsArray.push( item.nativeSvgTransform );
       }
     } );
 

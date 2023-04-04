@@ -160,7 +160,7 @@ describe( 'TransformCollection', (): void => {
 
       // Assert
       expect( nativeTransformCommand ).to.equal(
-        'rotate(29.999999999999996, 4, 5), translate(1, 2)'
+        'translate(1, 2), rotate(29.999999999999996, 4, 5)'
       );
     } );
 
