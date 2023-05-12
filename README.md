@@ -21,6 +21,7 @@ npm install @daign/2d-pipeline --save
 
 ## Documentation
 + [Concept](./docs/concept.md)
++ [Change notifications](./docs/change-notifications.md)
 + [Order of transformations](./docs/transformations-order.md)
 + [Example code](./docs/example-code.md)
 
