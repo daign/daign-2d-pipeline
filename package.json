@@ -1,6 +1,6 @@
 {
   "name": "@daign/2d-pipeline",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Two dimensional graphics pipeline.",
   "keywords": [
     "graphics",
@@ -29,22 +29,22 @@
   },
   "homepage": "https://github.com/daign/daign-2d-pipeline#readme",
   "devDependencies": {
-    "@types/chai": "^4.3.4",
-    "@types/mocha": "^10.0.1",
-    "@types/sinon": "^10.0.13",
-    "chai": "^4.3.7",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/sinon": "^17.0.2",
+    "chai": "^4.3.10",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
-    "sinon": "^15.0.3",
+    "sinon": "^17.0.1",
     "source-map-support": "^0.5.21",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "tslint": "^6.1.3",
     "tslint-no-unused-expression-chai": "^0.1.4",
-    "typescript": "^5.0.2"
+    "typescript": "5.0.2"
   },
   "dependencies": {
-    "@daign/math": "^1.1.1",
-    "@daign/observable": "^1.1.2"
+    "@daign/math": "^1.1.3",
+    "@daign/observable": "^1.1.3"
   },
   "nyc": {
     "include": [

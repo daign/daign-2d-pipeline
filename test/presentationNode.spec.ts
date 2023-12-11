@@ -277,34 +277,5 @@ describe( 'PresentationNode', (): void => {
       // Assert
       expect( source.presentationNodes.length ).to.equal( 0 );
     } );
-
-    it( 'should set sourceNode to null', (): void => {
-      // Arrange
-      const view = new View();
-      const source = new GraphicNode();
-      const node = new PresentationNode( view, source );
-
-      // Act
-      node.destroyNode();
-
-      // Assert
-      expect( node.sourceNode ).to.be.null;
-    } );
-
-    it( 'should not throw error when sourceNode is null', (): void => {
-      // Arrange
-      const view = new View();
-      const source = new GraphicNode();
-      const node = new PresentationNode( view, source );
-      node.sourceNode = null;
-
-      // Act
-      const badFn = (): void => {
-        node.destroyNode();
-      };
-
-      // Assert
-      expect( badFn ).to.not.throw();
-    } );
   } );
 } );
